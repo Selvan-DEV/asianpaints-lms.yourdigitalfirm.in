@@ -17,6 +17,8 @@ axiosInstance.interceptors.request.use(
     const token = useAuthStore.getState().token; // Get token from Zustand store
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, proxy-revalidate";
+      config.headers["Pragma"] = "no-cache";
     }
     return config;
   },

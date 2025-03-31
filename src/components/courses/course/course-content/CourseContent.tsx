@@ -85,6 +85,8 @@ export default function CourseContent(props: { topics: ITopic[] }) {
 
       if (content) {
         setTopicContent(content);
+      } else {
+        setTopicContent(null);
       }
     } catch (error) {
       console.error(error);
