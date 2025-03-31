@@ -18,7 +18,7 @@ export default function TopicContent(props: {
       </Typography>
 
       <Box sx={{ my: "10px" }}>
-        <VideoPlayer />
+        <VideoPlayer url={selectedTopicContent.videoUrl} />
       </Box>
 
       <Box
