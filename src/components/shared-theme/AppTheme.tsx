@@ -4,7 +4,6 @@ import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import type { ThemeOptions } from "@mui/material/styles";
 import { colorSchemes, typography, shadows, shape } from "./themePrimitives";
-import { feedbackCustomizations } from "./customizations/feedback";
 import { inputsCustomizations } from "./customizations/inputs";
 import { surfacesCustomizations } from "./customizations/surfaces";
 
@@ -34,7 +33,6 @@ export default function AppTheme(props: AppThemeProps) {
           shape,
           components: {
             ...inputsCustomizations,
-            ...feedbackCustomizations,
             ...surfacesCustomizations,
             ...themeComponents,
           },

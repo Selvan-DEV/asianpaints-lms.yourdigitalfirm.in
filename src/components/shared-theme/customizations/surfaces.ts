@@ -1,6 +1,16 @@
 import { alpha, Theme, Components } from '@mui/material/styles';
 import { gray } from '../themePrimitives';
 
+interface CustomTheme extends Theme {
+  vars?: {
+    palette: {
+      background: { default: string };
+      divider: string;
+    };
+    shape: { borderRadius: number };
+  };
+}
+
 export const surfacesCustomizations: Components<Theme> = {
   MuiAccordion: {
     defaultProps: {
@@ -8,7 +18,7 @@ export const surfacesCustomizations: Components<Theme> = {
       disableGutters: true,
     },
     styleOverrides: {
-      root: ({ theme }: any) => ({
+      root: ({ theme }: { theme: CustomTheme }) => ({
         padding: 4,
         overflow: 'clip',
         backgroundColor: (theme.vars || theme).palette.background.default,
@@ -56,7 +66,7 @@ export const surfacesCustomizations: Components<Theme> = {
   },
   MuiCard: {
     styleOverrides: {
-      root: ({ theme }: any) => {
+      root: ({ theme }: { theme: CustomTheme }) => {
         return {
           padding: 16,
           gap: 16,
