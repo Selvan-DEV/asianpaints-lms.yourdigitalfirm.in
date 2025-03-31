@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Shopping Arena</title>
+        <title>Asian Paints - LMS</title>
       </head>
       <body>
         <ThemeRegistryComponent>

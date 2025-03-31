@@ -11,6 +11,9 @@ import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import SignInSide from "./SignInSignUpLayout";
 import Link from "next/link";
+import { registerUser } from "@/lib/services/UserService";
+import { IUserRegistration } from "@/models/auth/UserModel";
+import { useRouter } from "next/navigation";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -35,20 +38,31 @@ export default function SignUpCard() {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      phoneNumber: data.get("phoneNumber"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    try {
+      const payload = {
+        firstName: data.get("firstName"),
+        lastName: data.get("lastName"),
+        phoneNumber: data.get("phone"),
+        email: data.get("email"),
+        password: data.get("password"),
+      } as IUserRegistration;
+      const response = await registerUser(payload);
+      if (response > 0) {
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validateInputs = () => {
@@ -90,7 +104,7 @@ export default function SignUpCard() {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleSubmit}
+          onSubmit={(e) => handleSubmit(e)}
           noValidate
           sx={{
             display: "flex",

@@ -8,6 +8,10 @@ export interface User {
   updatedAt: string;
 }
 
+export interface IUserRegistration extends User {
+  password: string;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;

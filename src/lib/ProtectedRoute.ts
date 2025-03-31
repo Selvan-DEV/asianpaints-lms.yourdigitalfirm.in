@@ -13,12 +13,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, isAdmin = fal
   const router = useRouter();
   const pathName = usePathname();
 
-
   useEffect(() => {
     const checkSession = async () => {
       const userToken = getUserToken();
 
-      if (!userToken) {
+      if (!userToken && pathName !== '/sign-in' && pathName !== '/sign-up') {
         router.push('/sign-in');
       }
     };

@@ -15,7 +15,7 @@ export default function Breadcrumb() {
   const pathSegments = pathname.split("/").filter((segment) => segment); // Split path
 
   return (
-    <Breadcrumbs aria-label="breadcrumb" sx={{ my: 1, ml: 3 }}>
+    <Breadcrumbs aria-label="breadcrumb" sx={{ my: 1 }}>
       <Link component={NextLink} href="/" color="inherit" underline="hover">
         Home
       </Link>
