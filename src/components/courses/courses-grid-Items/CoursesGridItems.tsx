@@ -1,18 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
 import { ICourseModel } from "@/models/courses/CoursesModel";
-import { Button, CardActions, Chip } from "@mui/material";
+import { Button, CardActions, Chip, CircularProgress } from "@mui/material";
 import { startCourse } from "@/lib/services/CoursesService";
 import { getUserData } from "@/shared/StorageService";
 
 export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const onCourseStart = async (id: number) => {
     if (!id) {
@@ -20,17 +21,20 @@ export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
     }
 
     try {
+      setLoading(true);
       const userId = getUserData()?.userId;
       const payload = {
         courseId: id,
         userId,
       } as { courseId: number; userId: number };
       const response = await startCourse(payload);
+      setLoading(false);
       if (response.message) {
         router.push("/courses/" + id);
       }
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -95,6 +99,10 @@ export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
                 size="small"
                 variant="contained"
                 onClick={() => onCourseStart(item.courseId)}
+                loading={loading}
+                loadingIndicator={
+                  <CircularProgress size={20} sx={{ color: "#FFFF" }} />
+                }
               >
                 Start
               </Button>

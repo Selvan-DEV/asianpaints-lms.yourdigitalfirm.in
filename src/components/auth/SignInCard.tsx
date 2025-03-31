@@ -14,6 +14,8 @@ import ForgotPassword from "./ForgotPassword";
 import SignInSide from "./SignInSignUpLayout";
 import { loginUser } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import { CircularProgress } from "@mui/material";
+import { useState } from "react";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -34,11 +36,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInCard() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [open, setOpen] = React.useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleClickOpen = () => {
@@ -60,11 +63,15 @@ export default function SignInCard() {
       password: data.get("password"),
     } as { email: string; password: string };
     try {
+      setLoading(true);
       const response = await loginUser(payload.email, payload.password);
+      setLoading(false);
       if (response && response.token) {
         router.push("/courses");
       }
-    } catch {}
+    } catch {
+      setLoading(false);
+    }
   };
 
   const validateInputs = () => {
@@ -167,6 +174,10 @@ export default function SignInCard() {
             variant="contained"
             onClick={validateInputs}
             color="primary"
+            loading={loading}
+            loadingIndicator={
+              <CircularProgress size={24} sx={{ color: "#FFFF" }} />
+            }
           >
             Sign in
           </Button>
