@@ -1,7 +1,6 @@
 import { alpha, Theme, Components } from '@mui/material/styles';
 import { gray } from '../themePrimitives';
 
-/* eslint-disable import/prefer-default-export */
 export const surfacesCustomizations: Components<Theme> = {
   MuiAccordion: {
     defaultProps: {
@@ -9,7 +8,6 @@ export const surfacesCustomizations: Components<Theme> = {
       disableGutters: true,
     },
     styleOverrides: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root: ({ theme }: any) => ({
         padding: 4,
         overflow: 'clip',
@@ -58,7 +56,6 @@ export const surfacesCustomizations: Components<Theme> = {
   },
   MuiCard: {
     styleOverrides: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root: ({ theme }: any) => {
         return {
           padding: 16,
