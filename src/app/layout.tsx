@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import Breadcrumb from "@/components/Layout/bread-crumb/BreadCrumb";
 import ProtectedRoute from "@/lib/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
 // import Footer from "@/components/Layout/Footer/Footer";
 
 export default function RootLayout({
@@ -25,7 +26,9 @@ export default function RootLayout({
           <Box sx={{ padding: "0 25px" }}>
             <Breadcrumb />
             <ProtectedRoute>
-              <ThemeRegistryComponent>{children}</ThemeRegistryComponent>
+              <Suspense fallback={<div>Loading...</div>}>
+                <ThemeRegistryComponent>{children}</ThemeRegistryComponent>
+              </Suspense>
               <ToastContainer
                 position="top-right"
                 autoClose={2000}
