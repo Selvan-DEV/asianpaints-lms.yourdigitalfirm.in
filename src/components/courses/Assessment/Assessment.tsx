@@ -85,6 +85,7 @@ const Assessment = () => {
 
   const handleNext = (values: any): void => {
     console.log("Final Submission:", values);
+    router.push("/topic/assessment/result");
   };
 
   if (questions.length === 0) return <p>Loading...</p>;
