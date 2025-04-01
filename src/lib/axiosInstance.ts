@@ -3,7 +3,7 @@ import showErrorToast from "@/utils/displayErrorMessage";
 import axios from "axios";
 import { useUIStore } from "@/store/useUIStore";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = "https://learning-app-api-9udj.onrender.com/api/";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
