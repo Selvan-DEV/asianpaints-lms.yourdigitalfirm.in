@@ -13,14 +13,11 @@ export default function CourseContent() {
       }}
     >
       <Typography variant="h5" component="div">
-        Lorem impusm
+        Learning Module System
       </Typography>
 
       <Typography variant="body2" color="text.secondary">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis vero
-        necessitatibus accusantium nulla consectetur est odit consequuntur,
-        voluptatibus molestiae nobis modi, eum iste assumenda quod a quo
-        dolorem. Ratione, ut.
+        ENRICHMENT OF OPERATORS SELF MANAGED TEAM
       </Typography>
     </Box>
   );

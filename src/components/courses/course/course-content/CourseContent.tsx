@@ -10,17 +10,30 @@ import {
   startAssessment,
 } from "@/lib/services/CoursesService";
 import { getUserData } from "@/shared/StorageService";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function CourseContent(props: { topics: ITopic[] }) {
   const { topics } = props;
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [isLastTopic, setLastTopic] = useState<boolean>(false);
   const [selectedTopicContent, setTopicContent] =
     useState<ITopicContent | null>(null);
   const [selectedTopic, setSelectedTopic] = useState(
     topics.length ? topics[0].topicId : 0
   );
+
+  useEffect(() => {
+    if (topics && topics.length === 1) {
+      setLastTopic(true);
+    }
+
+    return () => {
+      setLastTopic(false);
+    };
+  }, [topics]);
 
   const onTopicSelect = (currentTopicId: number) => {
     if (!currentTopicId) {
@@ -43,9 +56,22 @@ export default function CourseContent(props: { topics: ITopic[] }) {
     }
 
     if (isLastTopic) {
-      const { courseId, assessmentId } = topics.find(
+      const { courseId, assessmentId, topicName } = topics.find(
         (x) => x.topicId === selectedTopic
       ) as ITopic;
+
+      const params = new URLSearchParams(searchParams);
+      params.set("id", assessmentId?.toString());
+      router.push(
+        `${topicName
+          .split(" ")
+          .join("-")
+          .toLowerCase()}/assessment/?${params.toString()}`,
+        { scroll: false }
+      );
+
+      return;
+
       try {
         const payload = {
           topicId: selectedTopic,
@@ -60,7 +86,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
         };
         const response = await startAssessment(payload);
         if (response.message) {
-          router.push(`/courses/${courseId}/assessment`);
+          router.push(`/${courseId}/assessment`);
         }
       } catch (error) {
         console.error(error);
@@ -75,8 +101,10 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       setLastTopic(true);
     }
 
-    const newTopicId = topics[index - 1].topicId;
-    setSelectedTopic(newTopicId);
+    if (topics.length) {
+      const newTopicId = topics[index - 1]?.topicId;
+      setSelectedTopic(newTopicId);
+    }
   };
 
   const getTopicContent = useCallback(async () => {
@@ -108,25 +136,36 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       }}
     >
       <Box sx={{ width: "20%" }}>
-        <AlignItemsList
-          items={topics}
-          selectedTopic={selectedTopic}
-          setSelectedTopic={onTopicSelect}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+        >
+          <AlignItemsList
+            items={topics}
+            selectedTopic={selectedTopic}
+            setSelectedTopic={onTopicSelect}
+          />
+        </motion.div>
       </Box>
       <Box
         sx={{
-          bgcolor: "background.paper",
           padding: "20px",
           width: "80%",
         }}
       >
         {selectedTopicContent && (
-          <TopicContent
-            selectedTopicContent={selectedTopicContent}
-            isLastTopic={isLastTopic}
-            onNext={(e) => onNext(e)}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            <TopicContent
+              selectedTopicContent={selectedTopicContent}
+              isLastTopic={isLastTopic}
+              onNext={(e) => onNext(e)}
+            />
+          </motion.div>
         )}
       </Box>
     </Box>

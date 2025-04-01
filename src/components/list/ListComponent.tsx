@@ -16,7 +16,12 @@ export default function AlignItemsList(props: {
   const { items, selectedTopic, setSelectedTopic } = props;
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+      }}
+    >
       {items.map((item: ITopic) => (
         <Box key={item.topicId}>
           <ListItem
@@ -25,7 +30,11 @@ export default function AlignItemsList(props: {
             sx={{ cursor: "pointer" }}
           >
             <ListItemIcon
-              sx={{ transform: "scale(1.5)", padding: "10px 10px 0px 0px" }}
+              sx={{
+                transform: "scale(1)",
+                padding: "10px 10px 0px 0px",
+                minWidth: "10px !important",
+              }}
             >
               {item.topicId === selectedTopic ? (
                 <SendIcon
@@ -44,7 +53,7 @@ export default function AlignItemsList(props: {
               }
             />
           </ListItem>
-          <Divider variant="inset" component="li" />
+          <Divider variant="inset" component="li" sx={{ marginLeft: "0px" }} />
         </Box>
       ))}
     </List>

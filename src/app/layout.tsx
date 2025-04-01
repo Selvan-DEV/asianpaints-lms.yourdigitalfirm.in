@@ -22,7 +22,7 @@ export default function RootLayout({
           <Header />
         </ThemeRegistryComponent>
         <main>
-          <Box sx={{ padding: "0 25px", marginTop: "75px" }}>
+          <Box sx={{ padding: "0 25px" }}>
             <Breadcrumb />
             <ProtectedRoute>
               <ThemeRegistryComponent>{children}</ThemeRegistryComponent>

@@ -16,3 +16,9 @@ export interface AuthResponse {
   token: string;
   user: User;
 }
+
+export interface IForgotPasswordPayload {
+  email: string;
+  newPassword: string;
+  confirmPassword: string;
+}

@@ -67,7 +67,7 @@ export default function SignInCard() {
       const response = await loginUser(payload.email, payload.password);
       setLoading(false);
       if (response && response.token) {
-        router.push("/courses");
+        router.push("/");
       }
     } catch {
       setLoading(false);

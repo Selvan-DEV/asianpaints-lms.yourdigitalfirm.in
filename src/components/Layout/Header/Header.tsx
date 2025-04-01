@@ -4,17 +4,26 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import Toolbar from "@mui/material/Toolbar";
-import { AppBar, Avatar, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  LinearProgress,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
-import Paper from "@mui/material/Paper";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+// import Paper from "@mui/material/Paper";
+// import InputBase from "@mui/material/InputBase";
+// import SearchIcon from "@mui/icons-material/Search";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useUIStore } from "@/store/useUIStore";
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const menus = ["Logout"];
+  const loading = useUIStore((state) => state.loading);
   const isNotAuthPage = pathname !== "/sign-in" && pathname !== "/sign-up";
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -25,6 +34,10 @@ export default function Header() {
   };
 
   const handleCloseUserMenu = (): void => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     setAnchorElUser(null);
   };
 
@@ -35,6 +48,7 @@ export default function Header() {
 
     useAuthStore.getState().logout();
     router.push("/sign-in");
+    handleCloseUserMenu();
   };
 
   return (
@@ -42,7 +56,7 @@ export default function Header() {
       <AppBar
         position="fixed"
         elevation={isNotAuthPage ? 1 : 0}
-        sx={{ backgroundColor: "transparent" }}
+        sx={{ backgroundColor: isNotAuthPage ? "white" : "transparent" }}
       >
         <Toolbar
           sx={{
@@ -59,7 +73,7 @@ export default function Header() {
             priority
           />
 
-          {isNotAuthPage && (
+          {/* {isNotAuthPage && (
             <Box
               sx={{
                 boxShadow:
@@ -84,7 +98,7 @@ export default function Header() {
                 <SearchIcon />
               </Paper>
             </Box>
-          )}
+          )} */}
 
           {isNotAuthPage && (
             <Box
@@ -106,12 +120,12 @@ export default function Header() {
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "left",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "left",
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
@@ -126,6 +140,18 @@ export default function Header() {
           )}
         </Toolbar>
       </AppBar>
+      <Box sx={{ marginTop: "65px", minHeight: "10px" }}>
+        {loading && isNotAuthPage && (
+          <LinearProgress
+            sx={{
+              backgroundColor: "rgb(240, 217, 250)", // Background color of the track
+              "& .MuiLinearProgress-bar": {
+                backgroundColor: " #8e44ad", // Color of the filled bar
+              },
+            }}
+          />
+        )}
+      </Box>
     </Box>
   );
 }

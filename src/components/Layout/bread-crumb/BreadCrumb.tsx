@@ -3,12 +3,19 @@
 import { Breadcrumbs, Link, Typography } from "@mui/material";
 import { usePathname } from "next/navigation";
 import NextLink from "next/link";
+import { useUIStore } from "@/store/useUIStore";
 
 export default function Breadcrumb() {
   const pathname = usePathname(); // Get current path
+  const isBreadScrumbShow = useUIStore((state) => state.isBreadScrumbShow);
 
   // Hide breadcrumb for sign-in and sign-up pages
-  if (pathname === "/sign-in" || pathname === "/sign-up") {
+  if (
+    pathname === "/sign-in" ||
+    pathname === "/sign-up" ||
+    pathname === "/" ||
+    !isBreadScrumbShow
+  ) {
     return null;
   }
 
@@ -32,7 +39,7 @@ export default function Breadcrumb() {
               textTransform: "capitalize",
             }}
           >
-            {decodeURIComponent(segment)}
+            {decodeURIComponent(segment).split("-").join(" ")}
           </Typography>
         ) : (
           <Link
@@ -45,7 +52,7 @@ export default function Breadcrumb() {
               textTransform: "capitalize",
             }}
           >
-            {decodeURIComponent(segment)}
+            {decodeURIComponent(segment).split("-").join(" ")}
           </Link>
         );
       })}

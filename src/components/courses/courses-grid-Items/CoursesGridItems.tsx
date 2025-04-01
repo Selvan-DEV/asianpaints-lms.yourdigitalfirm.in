@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ICourseModel } from "@/models/courses/CoursesModel";
 import { Button, CardActions, Chip } from "@mui/material";
 import { startCourse } from "@/lib/services/CoursesService";
@@ -13,33 +13,50 @@ import { getUserData } from "@/shared/StorageService";
 
 export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const onCourseStart = async (id: number) => {
-    if (!id) {
+  const onCourseStart = async (data: { id: number; courseName: string }) => {
+    if (!data) {
       return;
     }
 
     try {
       const userId = getUserData()?.userId;
       const payload = {
-        courseId: id,
+        courseId: data.id,
         userId,
       } as { courseId: number; userId: number };
       const response = await startCourse(payload);
       if (response.message) {
-        router.push("/courses/" + id);
+        const params = new URLSearchParams(searchParams);
+        params.set("id", data.id.toString());
+        router.push(
+          `${data.courseName
+            .split(" ")
+            .join("-")
+            .toLowerCase()}/?${params.toString()}`,
+          { scroll: false }
+        );
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const onOpenCourse = (courseId: number) => {
-    if (!courseId) {
+  const onOpenCourse = (data: { id: number; courseName: string }) => {
+    if (!data) {
       return;
     }
 
-    router.push("/courses/" + courseId);
+    const params = new URLSearchParams(searchParams);
+    params.set("id", data.id.toString());
+    router.push(
+      `${data.courseName
+        .split(" ")
+        .join("-")
+        .toLowerCase()}/?${params.toString()}`,
+      { scroll: false }
+    );
   };
 
   return (
@@ -94,7 +111,12 @@ export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => onCourseStart(item.courseId)}
+                onClick={() =>
+                  onCourseStart({
+                    id: item.courseId,
+                    courseName: item.courseName,
+                  })
+                }
               >
                 Start
               </Button>
@@ -105,7 +127,12 @@ export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
                 size="small"
                 variant="outlined"
                 color="secondary"
-                onClick={() => onOpenCourse(item.courseId)}
+                onClick={() =>
+                  onOpenCourse({
+                    id: item.courseId,
+                    courseName: item.courseName,
+                  })
+                }
               >
                 Open
               </Button>
