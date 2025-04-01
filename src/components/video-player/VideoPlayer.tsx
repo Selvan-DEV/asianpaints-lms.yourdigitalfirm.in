@@ -6,7 +6,7 @@ export default function VideoPlayer(props: { url: string }) {
 
   return (
     <Box>
-      <video width="50%" height="50%" controls>
+      <video width="80%" height="50%" controls>
         <source src={url} />
         Your browser does not support the video tag.
       </video>

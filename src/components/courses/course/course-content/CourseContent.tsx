@@ -1,7 +1,7 @@
 "use client";
 
 import AlignItemsList from "@/components/list/ListComponent";
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import TopicContent from "../Topic/TopicContent";
 import { ITopic, ITopicContent } from "@/models/courses/CoursesModel";
@@ -50,12 +50,15 @@ export default function CourseContent(props: { topics: ITopic[] }) {
     setSelectedTopic(currentTopicId);
   };
 
-  const onNext = async (currentTopicId: number): Promise<void> => {
+  const onNext = async (
+    currentTopicId: number,
+    isSoonContent = false
+  ): Promise<void> => {
     if (!currentTopicId) {
       return;
     }
 
-    if (isLastTopic) {
+    if (isLastTopic || isSoonContent) {
       const { courseId, assessmentId, topicName } = topics.find(
         (x) => x.topicId === selectedTopic
       ) as ITopic;
@@ -154,7 +157,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
           width: "80%",
         }}
       >
-        {selectedTopicContent && (
+        {selectedTopicContent ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,6 +168,41 @@ export default function CourseContent(props: { topics: ITopic[] }) {
               isLastTopic={isLastTopic}
               onNext={(e) => onNext(e)}
             />
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "50vh",
+                textAlign: "center",
+              }}
+            >
+              <Box>
+                <Typography variant="h2" color="error" gutterBottom>
+                  Development Inprogress
+                </Typography>
+
+                <Typography variant="body1" color="textSecondary" paragraph>
+                  We&apos;ll be adding the topic content soon. To take the
+                  assessment, click the &apos;Start Assessment&apos; button.
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => onNext(topics[0].topicId, true)}
+                >
+                  Start Assessment
+                </Button>
+              </Box>
+            </Box>
           </motion.div>
         )}
       </Box>
