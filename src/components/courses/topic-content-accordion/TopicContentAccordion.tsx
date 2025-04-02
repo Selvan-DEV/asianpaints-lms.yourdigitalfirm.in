@@ -9,6 +9,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ITopic, ITopicContent } from "@/models/courses/CoursesModel";
 import { Box } from "@mui/material";
 import TopicContent from "../course/Topic/TopicContent";
+import { useState } from "react";
 
 export default function TopicContentAccordion(props: {
   items: ITopic[];
@@ -18,12 +19,22 @@ export default function TopicContentAccordion(props: {
 }) {
   const { items, selectedTopicContent, isLastTopic, onNext } = props;
 
+  const [expanded, setExpanded] = useState<number | boolean>(false);
+
+  const handleAccordionChange = (panelId: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panelId : false);
+
+    if (isExpanded && !items[panelId]) {
+      onNext(panelId);
+    }
+  };
+
   return (
     <Box>
       {items &&
         items.length &&
         items.map((item) => (
-          <Accordion key={item.topicId} onChange={() => onNext(item.topicId)}>
+          <Accordion key={item.topicId} onChange={handleAccordionChange(item.topicId)} expanded={expanded === item.topicId}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1-content"

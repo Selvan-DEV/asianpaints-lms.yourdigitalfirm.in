@@ -1,8 +1,16 @@
+"use client";
+
 import VideoPlayer from "@/components/video-player/VideoPlayer";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import Button from "@mui/material/Button";
 import { ITopicContent } from "@/models/courses/CoursesModel";
+import dynamic from "next/dynamic";
+
+const DocViewerComponent = dynamic(() => import("../../../doc-viewer/DocViewer"), {
+  ssr: false,
+});
+
 
 export default function TopicContent(props: {
   selectedTopicContent: ITopicContent;
@@ -17,8 +25,10 @@ export default function TopicContent(props: {
         {selectedTopicContent.contentTitle}
       </Typography>
 
-      <Box sx={{ my: "10px" }}>
+      <Box sx={{ my: "10px", minHeight: "100vh" }}>
         <VideoPlayer url={selectedTopicContent.videoUrl} />
+
+        <DocViewerComponent url={selectedTopicContent.docURL} name={selectedTopicContent.contentTitle} />
       </Box>
 
       <Box

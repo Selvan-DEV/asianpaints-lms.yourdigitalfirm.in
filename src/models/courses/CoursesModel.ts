@@ -30,4 +30,5 @@ export interface ITopicContent {
   videoUrl: string;
   createdAt: string;
   updatedAt: string;
+  docURL: string;
 }

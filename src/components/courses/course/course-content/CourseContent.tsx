@@ -136,7 +136,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       {/* Normal view */}
       <Box
         sx={{
-          display: { md: "flex", sm: "flex", xs: "flex" },
+          display: { md: "flex", sm: "none", xs: "none" },
           justifyContent: "flex-start",
           gap: "20px",
         }}
@@ -212,20 +212,22 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       </Box>
 
       {/* Mobile view */}
-      {/* <Box sx={{ display: { md: "none", sm: "none", xs: "flex" } }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-        >
-          <TopicContentAccordion
-            items={topics}
-            selectedTopicContent={selectedTopicContent}
-            isLastTopic={isLastTopic}
-            onNext={(e) => onNext(e)}
-          />
-        </motion.div>
-      </Box> */}
+      <Box sx={{ display: { md: "none", sm: "flex", xs: "flex" } }}>
+        <Box sx={{ width: "100%" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            <TopicContentAccordion
+              items={topics}
+              selectedTopicContent={selectedTopicContent}
+              isLastTopic={isLastTopic}
+              onNext={(e) => onNext(e)}
+            />
+          </motion.div>
+        </Box>
+      </Box>
     </Box>
   );
 }

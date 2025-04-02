@@ -47,3 +47,46 @@ a {
     padding: 20px;
   }
 }
+
+/* Hide Zoom In, Zoom Out, Expand, and Last Icon */
+.react-doc-viewer .rdv-toolbar>div>*:nth-child(3),
+/* Zoom In */
+.react-doc-viewer .rdv-toolbar>div>*:nth-child(4),
+/* Zoom Out */
+.react-doc-viewer .rdv-toolbar>div>*:nth-child(5),
+/* Expand */
+.react-doc-viewer .rdv-toolbar>div>*:nth-child(6) {
+  /* Last Icon */
+  display: none !important;
+}
+
+/* Move Previous and Next Page Buttons */
+.react-doc-viewer .sc-gFqAYk {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 50vh;
+}
+
+.react-doc-viewer .pdf-pagination-info {
+  align-self: flex-start;
+  color: #0000;
+}
+
+.react-doc-viewer .rdv-toolbar button {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.react-doc-viewer .rdv-toolbar button:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
