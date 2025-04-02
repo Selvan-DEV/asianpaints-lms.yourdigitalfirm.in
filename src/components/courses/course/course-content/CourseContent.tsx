@@ -12,6 +12,7 @@ import {
 import { getUserData } from "@/shared/StorageService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import TopicContentAccordion from "../../topic-content-accordion/TopicContentAccordion";
 
 export default function CourseContent(props: { topics: ITopic[] }) {
   const { topics } = props;
@@ -131,81 +132,100 @@ export default function CourseContent(props: { topics: ITopic[] }) {
   }, [getTopicContent, selectedTopic]);
 
   return (
-    <Box
-      sx={{
-        display: { md: "flex", sm: "none", xs: "none" },
-        justifyContent: "flex-start",
-        gap: "20px",
-      }}
-    >
-      <Box sx={{ width: "20%" }}>
+    <Box>
+      {/* Normal view */}
+      <Box
+        sx={{
+          display: { md: "flex", sm: "flex", xs: "flex" },
+          justifyContent: "flex-start",
+          gap: "20px",
+        }}
+      >
+        <Box sx={{ width: "20%" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+          >
+            <AlignItemsList
+              items={topics}
+              selectedTopic={selectedTopic}
+              setSelectedTopic={onTopicSelect}
+            />
+          </motion.div>
+        </Box>
+        <Box
+          sx={{
+            padding: "20px",
+            width: "80%",
+          }}
+        >
+          {selectedTopicContent ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            >
+              <TopicContent
+                selectedTopicContent={selectedTopicContent}
+                isLastTopic={isLastTopic}
+                onNext={(e) => onNext(e)}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "50vh",
+                  textAlign: "center",
+                }}
+              >
+                <Box>
+                  <Typography variant="h2" color="error" gutterBottom>
+                    Development Inprogress
+                  </Typography>
+
+                  <Typography variant="body1" color="textSecondary" paragraph>
+                    We&apos;ll be adding the topic content soon. To take the
+                    assessment, click the &apos;Start Assessment&apos; button.
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => onNext(topics[0].topicId, true)}
+                  >
+                    Start Assessment
+                  </Button>
+                </Box>
+              </Box>
+            </motion.div>
+          )}
+        </Box>
+      </Box>
+
+      {/* Mobile view */}
+      {/* <Box sx={{ display: { md: "none", sm: "none", xs: "flex" } }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         >
-          <AlignItemsList
+          <TopicContentAccordion
             items={topics}
-            selectedTopic={selectedTopic}
-            setSelectedTopic={onTopicSelect}
+            selectedTopicContent={selectedTopicContent}
+            isLastTopic={isLastTopic}
+            onNext={(e) => onNext(e)}
           />
         </motion.div>
-      </Box>
-      <Box
-        sx={{
-          padding: "20px",
-          width: "80%",
-        }}
-      >
-        {selectedTopicContent ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          >
-            <TopicContent
-              selectedTopicContent={selectedTopicContent}
-              isLastTopic={isLastTopic}
-              onNext={(e) => onNext(e)}
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "50vh",
-                textAlign: "center",
-              }}
-            >
-              <Box>
-                <Typography variant="h2" color="error" gutterBottom>
-                  Development Inprogress
-                </Typography>
-
-                <Typography variant="body1" color="textSecondary" paragraph>
-                  We&apos;ll be adding the topic content soon. To take the
-                  assessment, click the &apos;Start Assessment&apos; button.
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => onNext(topics[0].topicId, true)}
-                >
-                  Start Assessment
-                </Button>
-              </Box>
-            </Box>
-          </motion.div>
-        )}
-      </Box>
+      </Box> */}
     </Box>
   );
 }
