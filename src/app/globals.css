@@ -68,12 +68,33 @@ a {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  min-height: 50vh;
+  min-height: 40vh;
 }
 
-.react-doc-viewer .pdf-pagination-info {
+.react-doc-viewer .sc-feUYzb {
   align-self: flex-start;
-  color: #0000;
+  margin-top: -40px;
+  color: #000;
+}
+
+.react-doc-viewer .sc-gEvDqW {
+  display: none;
+}
+
+.react-doc-viewer #pdf-zoom-out {
+  display: none;
+}
+
+.react-doc-viewer #pdf-zoom-in {
+  display: none;
+}
+
+.react-doc-viewer #pdf-zoom-reset {
+  display: none;
+}
+
+.react-doc-viewer #pdf-toggle-pagination {
+  display: none;
 }
 
 .react-doc-viewer .rdv-toolbar button {
@@ -89,4 +110,8 @@ a {
 
 .react-doc-viewer .rdv-toolbar button:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+.hiddenCanvasElement {
+  display: none !important;
 }

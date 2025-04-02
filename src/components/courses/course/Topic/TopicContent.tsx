@@ -1,23 +1,27 @@
 "use client";
 
-import VideoPlayer from "@/components/video-player/VideoPlayer";
+// import VideoPlayer from "@/components/video-player/VideoPlayer";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import Button from "@mui/material/Button";
 import { ITopicContent } from "@/models/courses/CoursesModel";
-import dynamic from "next/dynamic";
+import DocViewerComponent from "@/components/doc-viewer/DocViewer";
+// import dynamic from "next/dynamic";
 
-const DocViewerComponent = dynamic(() => import("../../../doc-viewer/DocViewer"), {
-  ssr: false,
-});
-
+// const DocViewerComponent = dynamic(
+//   () => import("../../../doc-viewer/DocViewer"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 export default function TopicContent(props: {
   selectedTopicContent: ITopicContent;
   isLastTopic: boolean;
   onNext: (topicId: number) => void;
+  documentName: string;
 }) {
-  const { selectedTopicContent, isLastTopic, onNext } = props;
+  const { selectedTopicContent, isLastTopic, documentName, onNext } = props;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -26,16 +30,18 @@ export default function TopicContent(props: {
       </Typography>
 
       <Box sx={{ my: "10px", minHeight: "100vh" }}>
-        <VideoPlayer url={selectedTopicContent.videoUrl} />
-
-        <DocViewerComponent url={selectedTopicContent.docURL} name={selectedTopicContent.contentTitle} />
+        <DocViewerComponent
+          url={selectedTopicContent.docURL}
+          name={documentName}
+        />
+        {/* <VideoPlayer url={selectedTopicContent.videoUrl} /> */}
       </Box>
 
-      <Box
+      {/* <Box
         sx={{ display: "flex", flexDirection: "column", width: "80%" }}
         className="innerHtmlCustomization"
         dangerouslySetInnerHTML={{ __html: selectedTopicContent.contentBody }}
-      />
+      /> */}
 
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button

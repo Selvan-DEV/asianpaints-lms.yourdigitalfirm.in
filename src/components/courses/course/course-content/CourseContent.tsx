@@ -12,13 +12,15 @@ import {
 import { getUserData } from "@/shared/StorageService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import TopicContentAccordion from "../../topic-content-accordion/TopicContentAccordion";
 
 export default function CourseContent(props: { topics: ITopic[] }) {
   const { topics } = props;
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [documentName, setDocumentName] = useState<string>(
+    topics.length ? topics[0].topicName : ""
+  );
   const [isLastTopic, setLastTopic] = useState<boolean>(false);
   const [selectedTopicContent, setTopicContent] =
     useState<ITopicContent | null>(null);
@@ -48,6 +50,10 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       setLastTopic(false);
     }
 
+    const { topicName } = topics.find(
+      (x) => x.topicId === currentTopicId
+    ) as ITopic;
+    setDocumentName(topicName);
     setSelectedTopic(currentTopicId);
   };
 
@@ -63,6 +69,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       const { courseId, assessmentId, topicName } = topics.find(
         (x) => x.topicId === selectedTopic
       ) as ITopic;
+      setDocumentName(topicName);
 
       const params = new URLSearchParams(searchParams);
       params.set("id", assessmentId?.toString());
@@ -133,15 +140,15 @@ export default function CourseContent(props: { topics: ITopic[] }) {
 
   return (
     <Box>
-      {/* Normal view */}
       <Box
         sx={{
           display: { md: "flex", sm: "none", xs: "none" },
           justifyContent: "flex-start",
           gap: "20px",
+          bgcolor: "background.paper",
         }}
       >
-        <Box sx={{ width: "20%" }}>
+        <Box sx={{ width: "20%", position: "fixed" }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -158,9 +165,10 @@ export default function CourseContent(props: { topics: ITopic[] }) {
           sx={{
             padding: "20px",
             width: "80%",
+            marginLeft: "20%",
           }}
         >
-          {selectedTopicContent ? (
+          {selectedTopicContent && selectedTopicContent.docURL ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -168,6 +176,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
             >
               <TopicContent
                 selectedTopicContent={selectedTopicContent}
+                documentName={documentName || ""}
                 isLastTopic={isLastTopic}
                 onNext={(e) => onNext(e)}
               />
@@ -208,24 +217,6 @@ export default function CourseContent(props: { topics: ITopic[] }) {
               </Box>
             </motion.div>
           )}
-        </Box>
-      </Box>
-
-      {/* Mobile view */}
-      <Box sx={{ display: { md: "none", sm: "flex", xs: "flex" } }}>
-        <Box sx={{ width: "100%" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          >
-            <TopicContentAccordion
-              items={topics}
-              selectedTopicContent={selectedTopicContent}
-              isLastTopic={isLastTopic}
-              onNext={(e) => onNext(e)}
-            />
-          </motion.div>
         </Box>
       </Box>
     </Box>
