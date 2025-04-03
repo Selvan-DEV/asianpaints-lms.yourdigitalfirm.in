@@ -29,7 +29,7 @@ export default function TopicContent(props: {
         {selectedTopicContent.contentTitle}
       </Typography>
 
-      <Box sx={{ my: "10px", minHeight: "100vh" }}>
+      <Box sx={{ my: "10px" }}>
         <DocViewerComponent
           url={selectedTopicContent.docURL}
           name={documentName}

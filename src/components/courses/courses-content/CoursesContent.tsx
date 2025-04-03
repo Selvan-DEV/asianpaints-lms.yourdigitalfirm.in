@@ -7,18 +7,24 @@ export default function CourseContent() {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "flex-start",
-        flexDirection: "column",
+        justifyContent: "center",
         marginBottom: "30px",
+        marginTop: "30px"
       }}
     >
-      <Typography variant="h5" component="div">
-        Learning Module System
-      </Typography>
+      <Box sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}>
+        <Typography variant="h4" component="div">
+          Learning Module System
+        </Typography>
 
-      <Typography variant="body2" color="text.secondary">
-        ENRICHMENT OF OPERATORS SELF MANAGED TEAM
-      </Typography>
+        <Typography variant="body2" color="text.secondary">
+          ENRICHMENT OF OPERATORS SELF MANAGED TEAM
+        </Typography>
+      </Box>
     </Box>
   );
 }
