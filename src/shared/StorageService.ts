@@ -13,7 +13,7 @@ export const getSessionStorageItem = (itemName: string): unknown => {
     return null;
   }
 
-  const sessionItem = localStorage.getItem(itemName);
+  const sessionItem = sessionStorage.getItem(itemName);
   if (!sessionItem || sessionItem === "undefined") {
     return null;
   }
