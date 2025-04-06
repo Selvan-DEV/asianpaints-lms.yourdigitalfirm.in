@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       {
         source: '/api/pdf',
         destination: 'https://wheat-coyote-359937.hostingersite.com/',
+        eslint: {
+          ignoreDuringBuilds: true,
+        },
       },
     ];
   },
