@@ -125,7 +125,7 @@ export default function CoursesGridItems({ items }: { items: ICourseModel[] }) {
             <CardActions>
               <Button
                 size="small"
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 onClick={() =>
                   onOpenCourse({

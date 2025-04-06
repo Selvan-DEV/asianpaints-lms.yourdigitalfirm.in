@@ -5,8 +5,8 @@ export default function VideoPlayer(props: { url: string }) {
   const { url } = props;
 
   return (
-    <Box>
-      <video width="80%" height="50%" controls>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <video width="60%" height="70%" controls>
         <source src={url} />
         Your browser does not support the video tag.
       </video>

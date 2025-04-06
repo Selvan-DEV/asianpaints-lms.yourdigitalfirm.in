@@ -82,11 +82,11 @@ a {
 }
 
 .react-doc-viewer #pdf-zoom-out {
-  display: none;
+  margin-top: -40px;
 }
 
 .react-doc-viewer #pdf-zoom-in {
-  display: none;
+  margin-top: -40px;
 }
 
 .react-doc-viewer #pdf-zoom-reset {

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
+import { Box } from "@mui/material";
 
 const DocViewerComponent = (props: { url: string; name: string }) => {
   const [docData, setDocData] = useState<
@@ -30,7 +31,16 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
   }, []); // Include docData in the dependencies array
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        minHeight: "100%",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
       {!loading && (
         <DocViewer
           documents={docData}
@@ -38,7 +48,7 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
           className="react-doc-viewer"
         />
       )}
-    </div>
+    </Box>
   );
 };
 
