@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -27,7 +28,6 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
     return (
       <Box
         data-screenshot="toggle-mode"
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         sx={(theme: any) => ({
           verticalAlign: "bottom",
           display: "inline-flex",

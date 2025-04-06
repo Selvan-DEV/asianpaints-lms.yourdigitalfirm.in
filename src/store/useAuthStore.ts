@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from "@/models/auth/UserModel";
 import { create } from "zustand";
 import { persist, PersistOptions, StorageValue } from "zustand/middleware";
