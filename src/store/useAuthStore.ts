@@ -1,6 +1,6 @@
 import { User } from "@/models/auth/UserModel";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistOptions, StorageValue } from "zustand/middleware";
 
 interface AuthState {
   token: string | null;
@@ -9,8 +9,13 @@ interface AuthState {
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
+type AuthPersist = (
+  config: (set: any, get: any) => AuthState,
+  options: PersistOptions<AuthState>
+) => (set: any, get: any, api: any) => AuthState;
+
+export const useAuthStore = create<AuthState>(
+  (persist as AuthPersist)(
     (set) => ({
       token: null,
       user: null,
@@ -18,7 +23,19 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ token: null, user: null }),
     }),
     {
-      name: "auth-storage", // Name of localStorage key
+      name: "auth-storage",
+      storage: {
+        getItem: (name: string): StorageValue<AuthState> | null => {
+          const value = sessionStorage.getItem(name);
+          return value ? JSON.parse(value) : null;
+        },
+        setItem: (name: string, value: StorageValue<AuthState>) => {
+          sessionStorage.setItem(name, JSON.stringify(value));
+        },
+        removeItem: (name: string) => {
+          sessionStorage.removeItem(name);
+        },
+      },
     }
   )
 );
