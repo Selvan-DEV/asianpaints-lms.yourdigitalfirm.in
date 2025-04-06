@@ -7,7 +7,7 @@ import DocViewerComponent from "@/components/doc-viewer/DocViewer";
 import { ITopicContent } from "@/models/courses/CoursesModel";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   index: number;
   value: number;
 }
