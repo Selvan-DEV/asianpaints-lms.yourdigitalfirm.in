@@ -33,19 +33,16 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
   }, []); // Include docData in the dependencies array
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        minHeight: "100%",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
-    >
+    <>
       {!loading && (
         <Box>
-          {isMobile && <Typography sx={{ marginBottom: '10px', color: "blue", fontStyle: "italic" }}>Please rotate your device to landscape for a better experience.</Typography>}
+          {isMobile && (
+            <Typography
+              sx={{ marginBottom: "10px", color: "blue", fontStyle: "italic" }}
+            >
+              Please rotate your device to landscape for a better experience.
+            </Typography>
+          )}
           <DocViewer
             documents={docData}
             pluginRenderers={DocViewerRenderers}
@@ -53,7 +50,7 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
           />
         </Box>
       )}
-    </Box>
+    </>
   );
 };
 
