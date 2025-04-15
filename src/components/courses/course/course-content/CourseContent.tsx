@@ -1,7 +1,14 @@
 "use client";
 
 import AlignItemsList from "@/components/list/ListComponent";
-import { Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import TopicContent from "../Topic/TopicContent";
 import { ITopic, ITopicContent } from "@/models/courses/CoursesModel";
@@ -21,6 +28,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [contentLoading, setContentLoading] = useState<boolean>(false);
   const [documentName, setDocumentName] = useState<string>(
     topics.length ? topics[0].topicName : ""
   );
@@ -123,6 +131,8 @@ export default function CourseContent(props: { topics: ITopic[] }) {
 
   const getTopicContent = useCallback(async () => {
     try {
+      setContentLoading(true);
+      setTopicContent(null);
       const content = await getContentByTopicId(selectedTopic);
 
       if (content) {
@@ -132,6 +142,8 @@ export default function CourseContent(props: { topics: ITopic[] }) {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setContentLoading(false);
     }
   }, [selectedTopic]);
 
@@ -151,7 +163,6 @@ export default function CourseContent(props: { topics: ITopic[] }) {
           bgcolor: "background.paper",
         }}
       >
-
         {!isMobile ? (
           <Box sx={{ width: "20%", position: "fixed" }}>
             <motion.div
@@ -183,7 +194,7 @@ export default function CourseContent(props: { topics: ITopic[] }) {
             marginLeft: isMobile ? 0 : "20%",
           }}
         >
-          {selectedTopicContent && selectedTopicContent.docURL ? (
+          {selectedTopicContent ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -194,9 +205,10 @@ export default function CourseContent(props: { topics: ITopic[] }) {
                 documentName={documentName || ""}
                 isLastTopic={isLastTopic}
                 onNext={(e) => onNext(e)}
+                contentLoading={contentLoading}
               />
             </motion.div>
-          ) : (
+          ) : !contentLoading ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -231,6 +243,17 @@ export default function CourseContent(props: { topics: ITopic[] }) {
                 </Box>
               </Box>
             </motion.div>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                height: "100vh",
+                alignItems: "flex-start",
+              }}
+            >
+              <CircularProgress />
+            </Box>
           )}
         </Box>
       </Box>

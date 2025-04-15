@@ -25,8 +25,15 @@ export default function TopicContent(props: {
   isLastTopic: boolean;
   onNext: (topicId: number) => void;
   documentName: string;
+  contentLoading: boolean;
 }) {
-  const { selectedTopicContent, isLastTopic, documentName, onNext } = props;
+  const {
+    selectedTopicContent,
+    isLastTopic,
+    documentName,
+    onNext,
+    contentLoading,
+  } = props;
   const [value, setValue] = useState(0);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -52,7 +59,11 @@ export default function TopicContent(props: {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <VideoPlayer url={selectedTopicContent.videoUrl} />
+        {contentLoading ? (
+          <Box></Box>
+        ) : (
+          <VideoPlayer url={selectedTopicContent.videoUrl} />
+        )}
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <Button
             type="button"

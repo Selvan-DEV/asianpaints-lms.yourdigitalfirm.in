@@ -8,8 +8,14 @@ export default function VideoPlayer(props: { url: string }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box sx={{ display: "flex", justifyContent: isMobile ? "stretch" : "center" }}>
-      <video width={isMobile ? "100%" : "60%"} height={isMobile ? "100%" : "70%"} controls>
+    <Box
+      sx={{ display: "flex", justifyContent: isMobile ? "stretch" : "center" }}
+    >
+      <video
+        width={isMobile ? "100%" : "60%"}
+        height={isMobile ? "100%" : "70%"}
+        controls
+      >
         <source src={url} />
         Your browser does not support the video tag.
       </video>
