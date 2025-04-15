@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import "@cyntler/react-doc-viewer/dist/index.css";
-import { Box } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const DocViewerComponent = (props: { url: string; name: string }) => {
   const [docData, setDocData] = useState<
@@ -11,6 +11,8 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const { url, name } = props;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (url) {
@@ -42,11 +44,14 @@ const DocViewerComponent = (props: { url: string; name: string }) => {
       }}
     >
       {!loading && (
-        <DocViewer
-          documents={docData}
-          pluginRenderers={DocViewerRenderers}
-          className="react-doc-viewer"
-        />
+        <Box>
+          {isMobile && <Typography sx={{ marginBottom: '10px', color: "blue", fontStyle: "italic" }}>Please rotate your device to landscape for a better experience.</Typography>}
+          <DocViewer
+            documents={docData}
+            pluginRenderers={DocViewerRenderers}
+            className="react-doc-viewer"
+          />
+        </Box>
       )}
     </Box>
   );

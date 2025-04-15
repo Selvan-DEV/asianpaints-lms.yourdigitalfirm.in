@@ -1,7 +1,7 @@
 "use client";
 
 import AlignItemsList from "@/components/list/ListComponent";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import TopicContent from "../Topic/TopicContent";
 import { ITopic, ITopicContent } from "@/models/courses/CoursesModel";
@@ -12,11 +12,14 @@ import {
 import { getUserData } from "@/shared/StorageService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
+import TopicsAccordion from "../../TopicsAccordion/TopicsAccordion";
 
 export default function CourseContent(props: { topics: ITopic[] }) {
   const { topics } = props;
   const router = useRouter();
   const searchParams = useSearchParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [documentName, setDocumentName] = useState<string>(
     topics.length ? topics[0].topicName : ""
@@ -142,30 +145,42 @@ export default function CourseContent(props: { topics: ITopic[] }) {
     <Box>
       <Box
         sx={{
-          display: { md: "flex", sm: "none", xs: "none" },
+          display: { md: "flex" },
           justifyContent: "flex-start",
           gap: "20px",
           bgcolor: "background.paper",
         }}
       >
-        <Box sx={{ width: "20%", position: "fixed" }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-          >
-            <AlignItemsList
+
+        {!isMobile ? (
+          <Box sx={{ width: "20%", position: "fixed" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            >
+              <AlignItemsList
+                items={topics}
+                selectedTopic={selectedTopic}
+                setSelectedTopic={onTopicSelect}
+              />
+            </motion.div>
+          </Box>
+        ) : (
+          <Box>
+            <TopicsAccordion
               items={topics}
               selectedTopic={selectedTopic}
               setSelectedTopic={onTopicSelect}
             />
-          </motion.div>
-        </Box>
+          </Box>
+        )}
+
         <Box
           sx={{
-            padding: "20px",
-            width: "80%",
-            marginLeft: "20%",
+            padding: isMobile ? "10px 0" : "20px",
+            width: isMobile ? "100%" : "80%",
+            marginLeft: isMobile ? 0 : "20%",
           }}
         >
           {selectedTopicContent && selectedTopicContent.docURL ? (

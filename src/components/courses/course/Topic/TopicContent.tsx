@@ -35,7 +35,7 @@ export default function TopicContent(props: {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      <Typography variant="h5" component="div">
+      <Typography variant="h5" component="div" sx={{ textAlign: "center" }}>
         {selectedTopicContent.contentTitle}
       </Typography>
 
