@@ -27,13 +27,22 @@ export default function AlignItemsList(props: {
           <ListItem
             alignItems="flex-start"
             onClick={() => setSelectedTopic(item.topicId)}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              cursor: "pointer",
+              alignItems: "center",
+              gap: "10px",
+              height: "70px",
+              marginRight: 0,
+              marginBottom: 0,
+              padding: 0,
+              paddingLeft: "20px",
+            }}
           >
             <ListItemIcon
               sx={{
                 transform: "scale(1)",
-                padding: "10px 10px 0px 0px",
                 minWidth: "10px !important",
+                marginTop: 0,
               }}
             >
               {item.topicId === selectedTopic ? (
