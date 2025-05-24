@@ -3,7 +3,7 @@ import showErrorToast from "@/utils/displayErrorMessage";
 import axios from "axios";
 import { useUIStore } from "@/store/useUIStore";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = 'https://api-asianpaints-lms.yourdigitalfirm.com/api/';
 // const API_BASE_URL = "/api/";
 
 const axiosInstance = axios.create({
