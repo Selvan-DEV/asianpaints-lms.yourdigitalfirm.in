@@ -55,7 +55,9 @@ export default function TopicContent(props: {
         centered
       >
         <Tab label="Video" />
-        <Tab label="Document" />
+        {selectedTopicContent && selectedTopicContent.contentBody && (
+          <Tab label="Document" />
+        )}
       </Tabs>
 
       <TabPanel value={value} index={0}>
@@ -77,7 +79,7 @@ export default function TopicContent(props: {
 
       <TabPanel value={value} index={1}>
         <DocViewerComponent
-          url={selectedTopicContent.docURL}
+          url={selectedTopicContent.contentBody}
           name={documentName}
         />
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>

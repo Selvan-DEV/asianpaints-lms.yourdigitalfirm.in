@@ -160,7 +160,6 @@ export default function CourseContent(props: { topics: ITopic[] }) {
           display: { md: "flex" },
           justifyContent: "flex-start",
           gap: "20px",
-          bgcolor: "background.paper",
         }}
       >
         {!isMobile ? (
